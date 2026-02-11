@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Военный портал — новости армии и техники</title>
+    <style>
+        /* === Стили, как на warfiles.ru: темно-серый, строгий, армейский === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        body {
+            background: #1a1e24;
+            color: #e0e4e8;
+            line-height: 1.5;
+        }
+
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Шапка с армейским акцентом */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #c92a2a;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: #c92a2a;
+        }
+
+        .header-banner {
+            background: #2c313a;
+            padding: 10px 25px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #ffb224;
+            border-left: 4px solid #c92a2a;
+        }
+
+        /* Навигация */
+        .nav {
+            background: #232832;
+            margin-bottom: 30px;
+            border-radius: 6px;
+            border-bottom: 1px solid #3a4050;
+        }
+
+        .nav ul {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav li a {
+            display: block;
+            padding: 14px 20px;
+            color: #ccc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+            border-right: 1px solid #333a45;
+        }
+
+        .nav li a:hover {
+            background: #c92a2a;
+            color: white;
+        }
+
+        /* Сетка: основное содержимое + сайдбар */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        /* === Главная (топ) новость — крупный блок === */
+        .main-news {
+            background: #0e1219;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            border-left: 6px solid #c92a2a;
+        }
+
+        .main-news-img {
+            height: 260px;
+            background: linear-gradient(145deg, #2c313a, #1a1e24);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid #3a4050;
+            position: relative;
+        }
+
+        .main-news-img::after {
+            content: "ФОТО: УНИЧТОЖЕНИЕ ТЕХНИКИ ВСУ";
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(201, 42, 42, 0.9);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .main-news-content {
+            padding: 25px;
+        }
+
+        .main-news-content h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .main-news-content h2 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .main-news-content h2 a:hover {
+            color: #ff9066;
+        }
+
+        .meta {
+            color: #9aa2b0;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .meta i {
+            color: #c92a2a;
+            margin-right: 5px;
+        }
+
+        .excerpt {
+            color: #b8c1cc;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .read-more {
+            display: inline-block;
+            background: #2c313a;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+            border-left: 3px solid #c92a2a;
+        }
+
+        .read-more:hover {
+            background: #c92a2a;
+        }
+
+        /* === Лента новостей (карточки) === */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .news-card {
+            background: #1e232b;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: 0.25s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .news-card:hover {
+            border-bottom: 2px solid #c92a2a;
+            background: #252b36;
+        }
+
+        .card-img {
+            height: 160px;
+            background: #2d333d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8a99;
+            font-weight: 600;
+            background-image: radial-gradient(circle at 10px 10px, #3a4050 2px, transparent 2px);
+            background-size: 20px 20px;
+        }
+
+        .card-content {
+            padding: 18px;
+        }
+
+        .card-content h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .card-content h3 a {
+            color: #f0f4f8;
+            text-decoration: none;
+        }
+
+        .card-content h3 a:hover {
+            color: #ff9066;
+        }
+
+        .card-meta {
+            color: #8e98a5;
+            font-size: 13px;
+        }
+
+        /* === Боковая колонка (сайдбар) === */
+        .sidebar {
+            background: #1e232b;
+            border-radius: 10px;
+            padding: 0;
+        }
+
+        .sidebar-widget {
+            padding: 25px 20px;
+            border-bottom: 1px solid #2f3640;
+        }
+
+        .sidebar-widget:last-child {
+            border-bottom: none;
+        }
+
+        .widget-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #c92a2a;
+            display: inline-block;
+            color: white;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .popular-list {
+            list-style: none;
+        }
+
+        .popular-list li {
+            margin-bottom: 18px;
+            padding-bottom: 18px;
+            border-bottom: 1px dashed #323a45;
+        }
+
+        .popular-list li:last-child {
+            border-bottom: none;
+        }
+
+        .popular-list a {
+            color: #d3dbe3;
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .popular-list a:hover {
+            color: #ff9066;
+        }
+
+        .popular-list span {
+            font-size: 12px;
+            color: #8e98a5;
+        }
+
+        .last-news-side {
+            list-style: none;
+        }
+
+        .last-news-side li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .last-news-side li::before {
+            content: "●";
+            color: #c92a2a;
+            font-size: 12px;
+        }
+
+        .last-news-side a {
+            color: #cbd2da;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .last-news-side a:hover {
+            color: white;
+        }
+
+        /* Футер */
+        .footer {
+            background: #0e1219;
+            padding: 30px 0;
+            margin-top: 30px;
+            border-top: 1px solid #2f3640;
+            color: #9aa2b0;
+            text-align: center;
+        }
+
+        .footer-menu {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            list-style: none;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-menu a {
+            color: #b0b9c5;
+            text-decoration: none;
+        }
+
+        .footer-menu a:hover {
+            color: #c92a2a;
+        }
+
+        .copyright {
+            font-size: 14px;
+        }
+
+        /* Адаптация */
+        @media (max-width: 900px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Шапка сайта (Header) -->
+        <header class="header">
+            <div class="logo">
+                <h1><span>⚡</span> WARFILES</h1>
+                <div style="color: #8e98a5; font-size: 14px; margin-top: 5px;">хроника специальной операции</div>
+            </div>
+            <div class="header-banner">
+                🔥 СВО: 1442-й день
+            </div>
+        </header>
+
+        <!-- Навигация (как на warfiles) -->
+        <nav class="nav">
+            <ul>
+                <li><a href="#">ГЛАВНАЯ</a></li>
+                <li><a href="#">СВОДКА</a></li>
+                <li><a href="#">АНАЛИТИКА</a></li>
+                <li><a href="#">ВООРУЖЕНИЯ</a></li>
+                <li><a href="#">ИСТОРИЯ</a></li>
+                <li><a href="#">ВИДЕО</a></li>
+                <li><a href="#">МНЕНИЯ</a></li>
+            </ul>
+        </nav>
+
+        <!-- Основной блок: контент + сайдбар -->
+        <div class="content-grid">
+            <!-- Левая колонка — новости -->
+            <main>
+                <!-- ТОП-1 новость (самая важная, крупная) -->
+                <article class="main-news">
+                    <div class="main-news-img">
+                        <!-- Здесь был бы скриншот боя -->
+                        <span style="opacity: 0.3;">Т-72 106-й дивизии ВДВ</span>
+                    </div>
+                    <div class="main-news-content">
+                        <div class="meta">
+                            <span><span style="color:#c92a2a;">📅</span> 31 января 2026</span>
+                            <span><span style="color:#c92a2a;">🎯</span> Сумская область</span>
+                        </div>
+                        <h2><a href="#">Дроны сняли уничтожение странного танка ВСУ под Могрицей</a></h2>
+                        <p class="excerpt">Оператор разведывательного БПЛА 106-й гвардейской дивизии обнаружил и навел огонь на танк Т-72 киевских формирований. Потери противника в технике растут.</p>
+                        <a href="#" class="read-more">Читать далее →</a>
+                    </div>
+                </article>
+
+                <!-- Сетка новостей (карточки) -->
+                <div class="news-grid">
+                    <article class="news-card">
+                        <div class="card-img">
+                            <span>Т-55</span>
+                        </div>
+                        <div class="card-content">
+                            <h3><a href="#">Танки Т-55 «тряхнули стариной» в зоне СВО</a></h3>
+                            <div class="card-meta">Вчера • 4 218 просмотров</div>
+                        </div>
+                    </article>
+                    <article class="news-card">
+                        <div class="card-img">
+                            <span>РПГ-29</span>
+                        </div>
+                        <div class="card-content">
+                            <h3><a href="#">В России улучшили «Вампир» — один из мощнейших РПГ</a></h3>
+                            <div class="card-meta">30 января • 2 987 просмотров</div>
+                        </div>
+                    </article>
+                    <article class="news-card">
+                        <div class="card-img">
+                            <span>F-16</span>
+                        </div>
+                        <div class="card-content">
+                            <h3><a href="#">Новейший дрон спалил пятый F-16 ВСУ и Су-27</a></h3>
+                            <div class="card-meta">29 января • 6 521 просмотр</div>
+                        </div>
+                    </article>
+                    <article class="news-card">
+                        <div class="card-img">
+                            <span>Балтика</span>
+                        </div>
+                        <div class="card-content">
+                            <h3><a href="#">Дождались: на Балтике началась военная операция?</a></h3>
+                            <div class="card-meta">28 января • 3 402 просмотра</div>
+                        </div>
+                    </article>
+                    <article class="news-card">
+                        <div class="card-img">
+                            <span>Купянск</span>
+                        </div>
+                        <div class="card-content">
+                            <h3><a href="#">Зачистка Купянска-Узлового: «В батальоне вместо 500 — 50»</a></h3>
+                            <div class="card-meta">27 января • 5 123 просмотра</div>
+                        </div>
+                    </article>
+                    <article class="news-card">
+                        <div class="card-img">
+                            <span>Х-22</span>
+                        </div>
+                        <div class="card-content">
+                            <h3><a href="#">Ракету Х-22 «Буря» заменит Х-МЦ — ужас ПВО</a></h3>
+                            <div class="card-meta">26 января • 2 101 просмотр</div>
+                        </div>
+                    </article>
+                </div>
+            </main>
+
+            <!-- Правая колонка (Сайдбар) — в точности как на warfiles.ru -->
+            <aside class="sidebar">
+                <div class="sidebar-widget">
+                    <div class="widget-title">🔥 ПОПУЛЯРНОЕ</div>
+                    <ul class="popular-list">
+                        <li>
+                            <a href="#">«Считаю себя патриотом»: пленный офицер рассекретил десятки тысяч мин</a>
+                            <span>12 340 просмотров</span>
+                        </li>
+                        <li>
+                            <a href="#">Старый, злой и смертельно эффективный: США признали мощь Т-72</a>
+                            <span>9 876 просмотров</span>
+                        </li>
+                        <li>
+                            <a href="#">Тайный договорняк с Киевом: почему не бьют по мостам через Днепр</a>
+                            <span>8 452 просмотра</span>
+                        </li>
+                        <li>
+                            <a href="#">Бойня под Полтавой: пятый F-16 уничтожен на земле</a>
+                            <span>7 321 просмотр</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-widget">
+                    <div class="widget-title">📌 ПОСЛЕДНИЕ</div>
+                    <ul class="last-news-side">
+                        <li><a href="#">Морской ультиматум: РФ готовит боевое сопровождение судов</a></li>
+                        <li><a href="#">Ад начался ночью: Россия ломает энергохребет Украины</a></li>
+                        <li><a href="#">СБУ схватила белорусскую Мата Хари</a></li>
+                        <li><a href="#">Мощнейший взрыв «Града» разнес установку</a></li>
+                        <li><a href="#">В Гришино русские на M113 заскочили в тыл</a></li>
+                        <li><a href="#">Выяснились детали боя у Курчатовской АЭС</a></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-widget">
+                    <div class="widget-title">📊 ОПРОС</div>
+                    <p style="margin-bottom: 15px; font-weight: 600;">Нужна ли нам новая ракетная программа?</p>
+                    <p style="background: #2c313a; padding: 10px; border-radius: 4px; margin-bottom: 8px;">✅ Да, безусловно — 67%</p>
+                    <p style="background: #2c313a; padding: 10px; border-radius: 4px; margin-bottom: 8px;">❌ Нет, хватит — 21%</p>
+                    <p style="background: #2c313a; padding: 10px; border-radius: 4px;">⏳ Затрудняюсь — 12%</p>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Футер -->
+        <footer class="footer">
+            <ul class="footer-menu">
+                <li><a href="#">РЕДАКЦИЯ</a></li>
+                <li><a href="#">РЕКЛАМА</a></li>
+                <li><a href="#">КОНТАКТЫ</a></li>
+                <li><a href="#">ПРАВИЛА</a></li>
+            </ul>
+            <div class="copyright">
+                © 2026 WARFILES.ru — военно-аналитический портал. При использовании материалов гиперссылка обязательна.
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
