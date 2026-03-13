@@ -3,508 +3,832 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Военный диввиззион АЗДН</title>
+    <title>АРТИЛЛЕРИЙСКО-ЗЕНИТНЫЙ ДИВИЗИОН РК</title>
     <style>
-        /* === Стили, как на warfiles.ru: темно-серый, строгий, армейский === */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
         }
 
         body {
-            background: #1a1e24;
-            color: #e0e4e8;
-            line-height: 1.5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667761 0%, #2c3e50 100%);
+            color: #333;
+            min-height: 100vh;
         }
 
-        .wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        .main-wrapper {
+            max-width: 1300px;
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0.97);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(10px);
         }
 
-        /* Шапка с армейским акцентом */
-        .header {
+        /* Декоративные полосы */
+        .main-wrapper::before,
+        .main-wrapper::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            background: linear-gradient(180deg, #d4af37, #1a485c, #d4af37);
+        }
+        .main-wrapper::before { left: 0; }
+        .main-wrapper::after { right: 0; }
+
+        .content-container {
+            padding: 0 40px;
+        }
+
+        /* Шапка с градиентом */
+        header {
+            background: linear-gradient(135deg, #1a485c 0%, #0d2b36 100%);
+            height: 180px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 3px solid #c92a2a;
-            padding-bottom: 15px;
-            margin-bottom: 30px;
+            padding: 0 60px;
+            border-bottom: 4px solid #d4af37;
+            position: relative;
+            overflow: hidden;
         }
 
-        .logo h1 {
-            font-size: 32px;
-            font-weight: 700;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        header::before {
+            content: "⚔️";
+            position: absolute;
+            font-size: 120px;
+            opacity: 0.1;
+            color: #d4af37;
+            transform: rotate(-15deg);
+            right: 20%;
+            top: 20%;
         }
 
-        .logo span {
-            color: #c92a2a;
+        .header-logo {
+            height: 120px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+            transition: transform 0.3s;
         }
 
-        .header-banner {
-            background: #2c313a;
-            padding: 10px 25px;
-            border-radius: 4px;
-            font-weight: 600;
-            color: #ffb224;
-            border-left: 4px solid #c92a2a;
+        .header-logo:hover {
+            transform: scale(1.05);
         }
 
         /* Навигация */
-        .nav {
-            background: #232832;
-            margin-bottom: 30px;
-            border-radius: 6px;
-            border-bottom: 1px solid #3a4050;
+        nav {
+            background: linear-gradient(90deg, #0c2b3a, #1a3f4f);
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .nav ul {
-            display: flex;
-            list-style: none;
-            flex-wrap: wrap;
-        }
-
-        .nav li a {
-            display: block;
-            padding: 14px 20px;
-            color: #ccc;
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.2s;
-            border-right: 1px solid #333a45;
-        }
-
-        .nav li a:hover {
-            background: #c92a2a;
+        nav a {
             color: white;
-        }
-
-        /* Сетка: основное содержимое + сайдбар */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        /* === Главная (топ) новость — крупный блок === */
-        .main-news {
-            background: #0e1219;
-            border-radius: 10px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 16px;
+            margin: 0 25px;
+            padding: 10px 15px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            position: relative;
             overflow: hidden;
-            margin-bottom: 30px;
-            border-left: 6px solid #c92a2a;
         }
 
-        .main-news-img {
-            height: 260px;
-            background: linear-gradient(145deg, #2c313a, #1a1e24);
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+
+        nav a:hover::before,
+        nav a.active::before {
+            width: 100%;
+            height: 100%;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #d4af37;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        /* Стили секций */
+        .page-section {
+            display: none;
+            animation: fadeInUp 0.5s ease;
+            padding: 30px 0;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Заголовки блоков */
+        .block-header {
+            background: linear-gradient(135deg, #1a485c, #0d2b36);
+            color: white;
+            padding: 15px 20px;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 50px;
+            margin-bottom: 30px;
             display: flex;
             align-items: center;
+            box-shadow: 0 5px 15px rgba(26, 72, 92, 0.3);
+            border: 1px solid #d4af37;
+        }
+
+        .block-number {
+            background: linear-gradient(135deg, #d4af37, #f0c950);
+            color: #1a485c;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
             justify-content: center;
-            color: #aaa;
-            font-size: 24px;
+            align-items: center;
+            margin-right: 20px;
+            font-size: 18px;
             font-weight: bold;
-            border-bottom: 1px solid #3a4050;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 2px solid white;
+        }
+
+        /* Сетки */
+        .grid-2, .grid-3, .grid-4 {
+            display: grid;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+        /* Карточки */
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            border: 1px solid rgba(212, 175, 55, 0.3);
             position: relative;
         }
 
-        .main-news-img::after {
-            content: "ФОТО: УНИЧТОЖЕНИЕ ТЕХНИКИ ВСУ";
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(26, 72, 92, 0.3);
+            border-color: #d4af37;
+        }
+
+        .card::after {
+            content: '';
             position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(201, 42, 42, 0.9);
-            color: white;
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: 600;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #1a485c, #d4af37);
         }
 
-        .main-news-content {
-            padding: 25px;
+        .card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s;
         }
 
-        .main-news-content h2 {
-            font-size: 28px;
-            margin-bottom: 15px;
-            color: white;
+        .card:hover img {
+            transform: scale(1.05);
         }
 
-        .main-news-content h2 a {
-            color: white;
-            text-decoration: none;
+        .card-info {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, white);
         }
 
-        .main-news-content h2 a:hover {
-            color: #ff9066;
+        .card-title {
+            color: #1a485c;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+            border-left: 3px solid #d4af37;
+            padding-left: 10px;
         }
 
-        .meta {
-            color: #9aa2b0;
-            font-size: 14px;
-            margin-bottom: 15px;
-            display: flex;
-            gap: 20px;
+        /* Таблица документов */
+        .docs-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 15px;
+            background: transparent;
         }
 
-        .meta i {
-            color: #c92a2a;
-            margin-right: 5px;
-        }
-
-        .excerpt {
-            color: #b8c1cc;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        .read-more {
-            display: inline-block;
-            background: #2c313a;
-            color: white;
-            padding: 10px 25px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.2s;
-            border-left: 3px solid #c92a2a;
-        }
-
-        .read-more:hover {
-            background: #c92a2a;
-        }
-
-        /* === Лента новостей (карточки) === */
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
-        }
-
-        .news-card {
-            background: #1e232b;
-            border-radius: 8px;
+        .docs-table tr {
+            background: white;
+            border-radius: 15px;
             overflow: hidden;
-            transition: 0.25s;
-            border-bottom: 2px solid transparent;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
         }
 
-        .news-card:hover {
-            border-bottom: 2px solid #c92a2a;
-            background: #252b36;
+        .docs-table tr:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
         }
 
-        .card-img {
-            height: 160px;
-            background: #2d333d;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #7f8a99;
+        .docs-table td {
+            padding: 20px 25px;
+            border: none;
+            font-size: 16px;
+        }
+
+        .docs-table td:first-child {
             font-weight: 600;
-            background-image: radial-gradient(circle at 10px 10px, #3a4050 2px, transparent 2px);
-            background-size: 20px 20px;
+            color: #1a485c;
+            border-left: 4px solid #d4af37;
         }
 
-        .card-content {
-            padding: 18px;
+        /* Кнопки */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
         }
 
-        .card-content h3 {
+        .btn-download,
+        .btn-read {
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-read {
+            background: linear-gradient(135deg, #d4af37, #f0c950);
+            color: #0c2b3a;
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #1a485c, #0d2b36);
+            color: white;
+            box-shadow: 0 4px 10px rgba(26, 72, 92, 0.3);
+        }
+
+        .btn-read:hover,
+        .btn-download:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-read:active,
+        .btn-download:active {
+            transform: translateY(0);
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 2% auto;
+            width: 90%;
+            height: 90%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.3);
+            animation: modalSlide 0.3s;
+        }
+
+        @keyframes modalSlide {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #1a485c, #0d2b36);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #d4af37;
+        }
+
+        .close-btn {
+            color: #d4af37;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            line-height: 35px;
+        }
+
+        .close-btn:hover {
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        #pdfFrame {
+            width: 100%;
+            height: calc(100% - 80px);
+            border: none;
+        }
+
+        /* Достижения */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .achievement-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border: 1px solid #d4af37;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-10px) rotate(1deg);
+            box-shadow: 0 20px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .achievement-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .achievement-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .achievement-info h4 {
+            color: #1a485c;
             font-size: 18px;
             margin-bottom: 10px;
         }
 
-        .card-content h3 a {
-            color: #f0f4f8;
-            text-decoration: none;
-        }
-
-        .card-content h3 a:hover {
-            color: #ff9066;
-        }
-
-        .card-meta {
-            color: #8e98a5;
-            font-size: 13px;
-        }
-
-        /* === Боковая колонка (сайдбар) === */
-        .sidebar {
-            background: #1e232b;
-            border-radius: 10px;
-            padding: 0;
-        }
-
-        .sidebar-widget {
-            padding: 25px 20px;
-            border-bottom: 1px solid #2f3640;
-        }
-
-        .sidebar-widget:last-child {
-            border-bottom: none;
-        }
-
-        .widget-title {
-            font-size: 20px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #c92a2a;
-            display: inline-block;
-            color: white;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .popular-list {
-            list-style: none;
-        }
-
-        .popular-list li {
-            margin-bottom: 18px;
-            padding-bottom: 18px;
-            border-bottom: 1px dashed #323a45;
-        }
-
-        .popular-list li:last-child {
-            border-bottom: none;
-        }
-
-        .popular-list a {
-            color: #d3dbe3;
-            text-decoration: none;
-            font-weight: 500;
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        .popular-list a:hover {
-            color: #ff9066;
-        }
-
-        .popular-list span {
-            font-size: 12px;
-            color: #8e98a5;
-        }
-
-        .last-news-side {
-            list-style: none;
-        }
-
-        .last-news-side li {
-            margin-bottom: 12px;
-            display: flex;
-            align-items: baseline;
-            gap: 8px;
-        }
-
-        .last-news-side li::before {
-            content: "●";
-            color: #c92a2a;
-            font-size: 12px;
-        }
-
-        .last-news-side a {
-            color: #cbd2da;
-            text-decoration: none;
-            font-size: 15px;
-        }
-
-        .last-news-side a:hover {
-            color: white;
-        }
-
-        /* Футер */
-        .footer {
-            background: #0e1219;
-            padding: 30px 0;
-            margin-top: 30px;
-            border-top: 1px solid #2f3640;
-            color: #9aa2b0;
-            text-align: center;
-        }
-
-        .footer-menu {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            list-style: none;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .footer-menu a {
-            color: #b0b9c5;
-            text-decoration: none;
-        }
-
-        .footer-menu a:hover {
-            color: #c92a2a;
-        }
-
-        .copyright {
+        .achievement-info p {
+            color: #666;
             font-size: 14px;
         }
 
-        /* Адаптация */
+        .medal {
+            font-size: 30px;
+            margin: 10px 0;
+        }
+
+        /* Подписи и тексты */
+        .rank {
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            margin: 5px 0;
+        }
+
+        .section-title {
+            color: #1a485c;
+            font-size: 22px;
+            margin: 30px 0 20px;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 10px;
+        }
+
+        /* Адаптивность */
         @media (max-width: 900px) {
-            .content-grid {
+            .grid-2, .grid-3, .grid-4 {
                 grid-template-columns: 1fr;
             }
-            .news-grid {
-                grid-template-columns: 1fr;
+            
+            .content-container {
+                padding: 0 20px;
             }
-            .header {
+            
+            nav a {
+                margin: 0 10px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .btn-group {
                 flex-direction: column;
-                gap: 15px;
-                text-align: center;
+            }
+            
+            header {
+                padding: 0 20px;
+                height: 120px;
+            }
+            
+            .header-logo {
+                height: 70px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <!-- Шапка сайта (Header) -->
-        <header class="header">
-            <div class="logo">
-                <h1><span>⚡</span> AZDN</h1>
-                <div style="color: #8e98a5; font-size: 14px; margin-top: 5px;">Добро пожаловать в наш диввизион</div>
-            </div>
-            <div class="header-banner">
-                🔥 День Создания Дивиззиона : 10.10.2002
-            </div>
-        </header>
 
-        <!-- Навигация (как на warfiles) -->
-        <nav class="nav">
-            <ul>
-                <li><a href="#">ГЛАВНАЯ</a></li>
-                <li><a href="#">КОМАНДОВАНИЯ</a></li>
-                <li><a href="#">КОНСПЕКТЫ</a></li>
-                <li><a href="#">ГРАФИК ДЕЖУРСТВО</a></li>
-                <li><a href="#">ВИДЕО И ВОСПОМИНАНИЯ</a></li>
-            </ul>
-        </nav>
+<div class="main-wrapper">
+    <header>
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23d4af37' stroke='%231a485c' stroke-width='3'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle' fill='%231a485c' font-weight='bold'%3E⚔️%3C/text%3E%3C/svg%3E" alt="Герб левый" class="header-logo">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23d4af37' stroke='%231a485c' stroke-width='3'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle' fill='%231a485c' font-weight='bold'%3E🛡️%3C/text%3E%3C/svg%3E" alt="Герб правый" class="header-logo">
+    </header>
 
-        <!-- Основной блок: контент + сайдбар -->
-        <div class="content-grid">
-            <!-- Левая колонка — новости -->
-            <main>
-                <!-- ТОП-1 новость (самая важная, крупная) -->
-                <article class="main-news">
-                    <div class="main-news-img">
-                        <!-- Здесь был бы скриншот боя -->
-                        <span style="opacity: 0.3;">Т-72 106-й дивизии ВДВ</span>
+    <nav>
+        <a class="nav-link active" onclick="openPage('info', this)">ИНФОРМАЦИЯ</a>
+        <a class="nav-link" onclick="openPage('staff', this)">ЛИЧНЫЙ СОСТАВ</a>
+        <a class="nav-link" onclick="openPage('docs', this)">КОНСПЕКТЫ</a>
+        <a class="nav-link" onclick="openPage('achievements', this)">ДОСТИЖЕНИЯ</a>
+    </nav>
+
+    <div class="content-container">
+        <div class="main-content">
+
+            <!-- Секция 1: Информация -->
+            <div id="info" class="page-section active">
+                <div class="block-header">
+                    <div class="block-number">1</div>
+                    ВООРУЖЕНИЕ И ТЕХНИКА
+                </div>
+                <div class="grid-3">
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1595590424783-64faf1a4c565?w=400" alt="АЗП-57">
+                        <div class="card-info">
+                            <div class="card-title">АЗП-57</div>
+                            <p>57-мм автоматическая зенитная пушка. Скорострельность: 120 выстр/мин. Дальность: до 6 км.</p>
+                            <span class="rank">Основное средство ПВО</span>
+                        </div>
                     </div>
-                    <div class="main-news-content">
-                        <div class="meta">
-                            <span><span style="color:#c92a2a;">📅</span> 31 января 2026</span>
-                            <span><span style="color:#c92a2a;">🎯</span> Сумская область</span>
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1606041019432-5b6989b0e8fa?w=400" alt="Миномет">
+                        <div class="card-info">
+                            <div class="card-title">2Б11 "Сани"</div>
+                            <p>120-мм миномет. Дальность стрельбы: до 7 км. Вес мины: 16 кг.</p>
+                            <span class="rank">Мощь пехоты</span>
                         </div>
-                        <h2><a href="#">АЗП-57</a></h2>
-                        <p class="excerpt">Тут информация.</p>
-                        <a href="#" class="read-more">Читать далее →</a>
                     </div>
-                </article>
-
-                <!-- Сетка новостей (карточки) -->
-                <div class="news-grid">
-                    <article class="news-card">
-                        <div class="card-img">
-                            <span>Т-55</span>
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1581726703485-3f4d8e4c3b0a?w=400" alt="ЗРК">
+                        <div class="card-info">
+                            <div class="card-title">ЗРК "Стрела-10"</div>
+                            <p>Зенитный ракетный комплекс. Поражение целей на высотах до 3.5 км.</p>
+                            <span class="rank">Защита с воздуха</span>
                         </div>
-                        <div class="card-content">
-                            <h3><a href="#">Пистолет</a></h3>
-                            <div class="card-meta">Вчера • 4 218 просмотров</div>
-                        </div>
-                    </article>
-                    <article class="news-card">
-                        <div class="card-img">
-                            <span>РПГ-29</span>
-                        </div>
-                        <div class="card-content">
-                            <h3><a href="#">Миномет</a></h3>
-                            <div class="card-meta">30 января • 2 987 просмотров</div>
-                        </div>
-                    </article>
-                    <article class="news-card">
-                        <div class="card-img">
-                            <span>F-16</span>
-                        </div>
-                        <div class="card-content">
-                            <h3><a href="#">ЧЕТА ИНФОРМАЦИЯ</a></h3>
-                            <div class="card-meta">29 января • 6 521 просмотр</div>
-                        </div>
-                    </article>
-                    <article class="news-card">
-                        <div class="card-img">
-                            <span>Балтика</span>
-                        </div>
-                        <div class="card-content">
-                            <h3><a href="#">ЧЕТА ИНФОРМАЦИЯ</a></h3>
-                            <div class="card-meta">28 января • 3 402 просмотра</div>
-                        </div>
-                    </article>
-                    <article class="news-card">
-                        <div class="card-img">
-                            <span>Купянск</span>
-                        </div>
-                        <div class="card-content">
-                            <h3><a href="#">ЧЕТА ИНФОРМАЦИЯ»</a></h3>
-                            <div class="card-meta">27 января • 5 123 просмотра</div>
-                        </div>
-                    </article>
-                    <article class="news-card">
-                        <div class="card-img">
-                            <span>Х-22</span>
-                        </div>
-                        <div class="card-content">
-                            <h3><a href="#">ЧЕТА ИНФОРМАЦИЯ</a></h3>
-                            <div class="card-meta">26 января • 2 101 просмотр</div>
-                        </div>
-                    </article>
+                    </div>
                 </div>
-            </main>
+                
+                <div class="block-header">
+                    <div class="block-number">i</div>
+                    ТАКТИКО-ТЕХНИЧЕСКИЕ ХАРАКТЕРИСТИКИ
+                </div>
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-info">
+                            <div class="card-title">Основные задачи</div>
+                            <ul style="padding-left: 20px; color: #555;">
+                                <li>Прикрытие войск от воздушного нападения</li>
+                                <li>Уничтожение наземных целей</li>
+                                <li>Поддержка пехоты в наступлении</li>
+                                <li>Противодесантная оборона</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-info">
+                            <div class="card-title">Боевые возможности</div>
+                            <ul style="padding-left: 20px; color: #555;">
+                                <li>Круглосуточное применение</li>
+                                <li>Работа в любых погодных условиях</li>
+                                <li>Высокая мобильность</li>
+                                <li>Защита от высокоточного оружия</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <!-- Правая колонка (Сайдбар) — в точности как на warfiles.ru -->
-            <aside class="sidebar">
-                <div class="sidebar-widget">
-                    <div class="widget-title">🔥 НУЖНО ЗНАТЬ</div>
-                    <ul class="popular-list">
-                        <li>
-                        </li>
-                    </ul>
+            <!-- Секция 2: Личный состав -->
+            <div id="staff" class="page-section">
+                <div class="block-header">
+                    <div class="block-number">2</div>
+                    КОМАНДОВАНИЕ ДИВИЗИОНА
+                </div>
+                <div class="grid-3">
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1553272725-086100aecf5e?w=400" alt="Комдив">
+                        <div class="card-info">
+                            <div class="card-title">Нургалиев А.К.</div>
+                            <span class="rank">Полковник</span>
+                            <p>Командир дивизиона</p>
+                            <p style="font-size: 12px;">Награды: Орден "Айбын" 2 ст.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=400" alt="Начштаба">
+                        <div class="card-info">
+                            <div class="card-title">Сериков Д.М.</div>
+                            <span class="rank">Подполковник</span>
+                            <p>Начальник штаба</p>
+                            <p style="font-size: 12px;">Награды: Медаль "За воинскую доблесть"</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400" alt="Замкомандира">
+                        <div class="card-info">
+                            <div class="card-title">Омаров Е.Т.</div>
+                            <span class="rank">Майор</span>
+                            <p>Заместитель командира</p>
+                            <p style="font-size: 12px;">Награды: Медаль "За безупречную службу"</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="sidebar-widget">
-                    <div class="widget-title">📊 ОПРОС</div>
-                    <p style="margin-bottom: 15px; font-weight: 600;">Как на воскресенья поехать в киноху?</p>
-                    <p style="background: #2c313a; padding: 10px; border-radius: 4px; margin-bottom: 8px;">✅ Да, безусловно — 67%</p>
-                    <p style="background: #2c313a; padding: 10px; border-radius: 4px; margin-bottom: 8px;">❌ Нет, хватит — 21%</p>
-                    <p style="background: #2c313a; padding: 10px; border-radius: 4px;">⏳ Затрудняюсь — 12%</p>
+                <h3 class="section-title">КОМАНДИРЫ ПОДРАЗДЕЛЕНИЙ</h3>
+                <div class="grid-4">
+                    <div class="card">
+                        <div class="card-info">
+                            <div class="card-title">Ахметов Р.С.</div>
+                            <span class="rank">Капитан</span>
+                            <p>1 зенитная батарея</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-info">
+                            <div class="card-title">Ибраев С.К.</div>
+                            <span class="rank">Капитан</span>
+                            <p>2 зенитная батарея</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-info">
+                            <div class="card-title">Ким Д.В.</div>
+                            <span class="rank">Ст. лейтенант</span>
+                            <p>Минометная батарея</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-info">
+                            <div class="card-title">Смагулов Б.К.</div>
+                            <span class="rank">Капитан</span>
+                            <p>Взвод управления</p>
+                        </div>
+                    </div>
                 </div>
-            </aside>
+            </div>
+
+            <!-- Секция 3: Конспекты -->
+            <div id="docs" class="page-section">
+                <div class="block-header">
+                    <div class="block-number">3</div>
+                    УЧЕБНЫЕ МАТЕРИАЛЫ
+                </div>
+                <table class="docs-table">
+                    <tr>
+                        <td>📚 Устройство АЗП-57 (полное руководство)</td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn-read" onclick="openPdf('files/azp57.pdf', 'Устройство АЗП-57')">ЧИТАТЬ</button>
+                                <a href="#" class="btn-download" onclick="alert('Скачивание начато')">СКАЧАТЬ PDF</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>📚 Тактика минометного взвода (боевой устав)</td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn-read" onclick="openPdf('files/taktika.pdf', 'Тактика минометного взвода')">ЧИТАТЬ</button>
+                                <a href="#" class="btn-download" onclick="alert('Скачивание начато')">СКАЧАТЬ PDF</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>📚 Организация ПВО мотострелкового батальона</td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn-read" onclick="openPdf('files/pvo.pdf', 'Организация ПВО')">ЧИТАТЬ</button>
+                                <a href="#" class="btn-download" onclick="alert('Скачивание начато')">СКАЧАТЬ DOCX</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>📚 Боевая работа на АЗП-57 (памятка)</td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn-read" onclick="openPdf('files/boevaya.pdf', 'Боевая работа')">ЧИТАТЬ</button>
+                                <a href="#" class="btn-download" onclick="alert('Скачивание начато')">СКАЧАТЬ DOCX</a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="block-header" style="margin-top: 40px;">
+                    <div class="block-number">+</div>
+                    ВИДЕОМАТЕРИАЛЫ
+                </div>
+                <div class="grid-2">
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400" alt="Видео">
+                        <div class="card-info">
+                            <div class="card-title">Работа расчета АЗП-57</div>
+                            <p>Учебный фильм, 25 мин.</p>
+                            <button class="btn-read" style="width: 100%;" onclick="alert('Видео загружается')">СМОТРЕТЬ</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1594781718886-95f715c5b26a?w=400" alt="Видео">
+                        <div class="card-info">
+                            <div class="card-title">Тактические учения</div>
+                            <p>Документальный фильм, 40 мин.</p>
+                            <button class="btn-read" style="width: 100%;" onclick="alert('Видео загружается')">СМОТРЕТЬ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секция 4: Достижения -->
+            <div id="achievements" class="page-section">
+                <div class="block-header">
+                    <div class="block-number">4</div>
+                    НАШИ ПОБЕДЫ И ДОСТИЖЕНИЯ
+                </div>
+                
+                <div class="achievements-grid">
+                    <div class="achievement-card">
+                        <img src="https://images.unsplash.com/photo-1549692520-acc6669e2f0c?w=400" alt="Парад">
+                        <div class="achievement-info">
+                            <div class="medal">🏆</div>
+                            <h4>1 МЕСТО</h4>
+                            <p>На армейских международных играх "АрМИ-2023"</p>
+                            <span class="rank">Конкурс "Мастера ПВО"</span>
+                        </div>
+                    </div>
+                    <div class="achievement-card">
+                        <img src="https://images.unsplash.com/photo-1542810634-71277ad95d6d?w=400" alt="Стрельбы">
+                        <div class="achievement-info">
+                            <div class="medal">🎖️</div>
+                            <h4>ГРАН-ПРИ</h4>
+                            <p>На соревнованиях по полевой выучке 2024</p>
+                            <span class="rank">Лучший дивизион</span>
+                        </div>
+                    </div>
+                    <div class="achievement-card">
+                        <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=400" alt="Учения">
+                        <div class="achievement-info">
+                            <div class="medal">⚡</div>
+                            <h4>РЕКОРД</h4>
+                            <p>Лучшее время развертывания - 4 минуты 20 сек</p>
+                            <span class="rank">Дивизионный норматив</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">НАГРАДЫ ЛИЧНОГО СОСТАВА</h3>
+                <table class="docs-table">
+                    <tr>
+                        <td>🎖️ Орден "Айбын" I степени</td>
+                        <td>2 офицера</td>
+                    </tr>
+                    <tr>
+                        <td>🎖️ Орден "Айбын" II степени</td>
+                        <td>5 офицеров</td>
+                    </tr>
+                    <tr>
+                        <td>🎖️ Медаль "За воинскую доблесть"</td>
+                        <td>15 военнослужащих</td>
+                    </tr>
+                    <tr>
+                        <td>🎖️ Медаль "За безупречную службу"</td>
+                        <td>23 военнослужащих</td>
+                    </tr>
+                </table>
+            </div>
+
         </div>
-
-        <!-- Футер -->
-        <footer class="footer">
-            <ul class="footer-menu">
-                <li><a href="#">РЕДАКЦИЯ</a></li>
-                <li><a href="#">КОНТАКТЫ</a></li>
-                <li><a href="#">ПРАВИЛА</a></li>
-            </ul>
-            <div class="copyright">
-                ©https://muxanulu02-png.github.io/AZDN/
-            </div>
-        </footer>
     </div>
+</div>
+
+<!-- Модальное окно для PDF -->
+<div id="pdfModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="pdfTitle" style="margin: 0; font-size: 20px;">Чтение документа</h3>
+            <span class="close-btn" onclick="closePdf()">&times;</span>
+        </div>
+        <iframe id="pdfFrame" src=""></iframe>
+    </div>
+</div>
+
+<script>
+    function openPage(pageId, element) {
+        // Скрываем все секции
+        document.querySelectorAll('.page-section').forEach(section => {
+            section.classList.remove('active');
+        });
+        
+        // Убираем активный класс у всех ссылок
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        // Показываем выбранную секцию
+        document.getElementById(pageId).classList.add('active');
+        element.classList.add('active');
+    }
+
+    function openPdf(pdfUrl, title) {
+        document.getElementById('pdfTitle').textContent = title;
+        document.getElementById('pdfFrame').src = pdfUrl;
+        document.getElementById('pdfModal').style.display = 'block';
+        
+        // Блокируем прокрутку body
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closePdf() {
+        document.getElementById('pdfModal').style.display = 'none';
+        document.getElementById('pdfFrame').src = '';
+        
+        // Возвращаем прокрутку
+        document.body.style.overflow = 'auto';
+    }
+
+    // Закрытие по клику вне модального окна
+    window.onclick = function(event) {
+        const modal = document.getElementById('pdfModal');
+        if (event.target === modal) {
+            closePdf();
+        }
+    }
+
+    // Закрытие по ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closePdf();
+        }
+    });
+</script>
+
 </body>
 </html>
